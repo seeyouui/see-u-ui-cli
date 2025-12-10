@@ -1,0 +1,55 @@
+{
+	"easycom": {
+		"autoscan": true,
+		"custom": {
+			"^see-(.*)": "@/uni_modules/see-u-ui/components/see-$1/see-$1.vue"
+		}
+	},
+	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+		{
+			"path": "pages/index/index",
+			"style": {
+				"navigationBarTitleText": "SeeYouUI"
+			}
+		},
+		{
+			"path" : "pages/seeButton/index",
+			"style" : 
+			{
+				"navigationBarTitleText" : "Button 按钮",
+				"enablePullDownRefresh" : false
+			}
+		},
+		{
+			"path" : "pages/seeText/index",
+			"style" : 
+			{
+				"navigationBarTitleText" : "Text 文本",
+				"enablePullDownRefresh" : false
+			}
+		},
+		{
+			"path" : "pages/seeColor/index",
+			"style" : 
+			{
+				"navigationBarTitleText" : "Color 色彩",
+				"enablePullDownRefresh" : false
+			}
+		},
+		{
+			"path" : "pages/seeLink/index",
+			"style" : 
+			{
+				"navigationBarTitleText" : "Link 链接",
+				"enablePullDownRefresh" : false
+			}
+		}
+	],
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "SeeYouUI",
+		"navigationBarBackgroundColor": "#FFFFFF",
+		"backgroundColor": "#FFFFFF"
+	},
+	"uniIdRouter": {}
+}
