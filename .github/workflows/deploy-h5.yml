@@ -1,0 +1,61 @@
+name: Build and Deploy H5 Demo
+
+# 1. 触发条件：监听 main 分支的任何提交
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1️⃣ 拉取代码
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # 2️⃣ 安装 PNPM (保持和你之前的版本一致)
+      - name: Setup PNPM
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      # 3️⃣ 安装 Node.js 环境
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+
+      # 4️⃣ 安装依赖
+      - name: Install dependencies
+        run: pnpm install
+
+      # 5️⃣ 执行 H5 构建
+      - name: Build H5
+        run: pnpm build:h5
+
+      # 6️⃣ 部署到服务器
+      - name: Deploy to server
+        uses: burnett01/rsync-deployments@7.0.1
+        with:
+          # Rsync 参数：
+          # -a: 归档模式
+          # -v: 详细输出
+          # -z: 压缩传输
+          # --delete: 删除服务器上多余的文件（确保服务器目录和本地构建结果完全一致）
+          switches: -avz --delete --exclude=".*"
+          
+          # ⚠️ 注意这里：
+          # UniApp CLI 默认的 H5 打包输出路径通常是 dist/build/h5/
+          # 如果你的项目输出路径不同，请修改这里
+          path: dist/build/h5/
+          
+          # 目标服务器路径
+          remote_path: /www/wwwroot/demo.seeuui.cn/
+          
+          # 服务器连接信息 (需要去仓库 Settings -> Secrets 配置)
+          remote_host: ${{ secrets.SERVER_HOST }}
+          remote_user: ${{ secrets.SERVER_USER }}
+          remote_key: ${{ secrets.SERVER_SSH_KEY }}
